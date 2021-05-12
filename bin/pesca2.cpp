@@ -18,7 +18,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define DEBUG
+// #define DEBUG
 
 // Variabiles
 int P, x0, y0_, max_x, change, pescati;
@@ -111,7 +111,7 @@ int main()
             {
                 for(int j = 0; j < pesci2[i].size(); ++j)
                 {
-                    if(pesci2[i][j] <= my_y[i] && pesci2[i][j] >= y0_)
+                    if((pesci2[i][j] <= my_y[i] && pesci2[i][j] >= y0_) || (pesci2[i][j] >= my_y[i] && pesci2[i][j] <= y0_))
                     {
 #ifdef DEBUG
                         cout << "Taked is : (" << i << ", " << pesci2[i][j] << ")" << endl;
@@ -135,7 +135,7 @@ int main()
     {
         for(int j = 0; j < pesci2[x0].size(); ++j)
         {
-            if(pesci2[x0][j] <= my_y[x0] && pesci2[x0][j] >= y0_)
+            if((pesci2[x0][j] <= my_y[x0] && pesci2[x0][j] >= y0_) || (pesci2[x0][j] >= my_y[x0] && pesci2[x0][j] <= y0_))
             {
 #ifdef DEBUG
                 cout << "Taked is : (" << x0 << ", " << pesci2[x0][j] << ")" << endl;

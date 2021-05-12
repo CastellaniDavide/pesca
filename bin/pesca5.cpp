@@ -21,10 +21,10 @@ using namespace std;
 #define DEBUG
 
 // Variabiles
-int P, x0, y0_, max_x, change, pescati;
-vector < pair <int, int> > pesci;
+int P, x0, y0_, change, pescati, temp, temp2, max_x;
 vector < vector <int> > pesci2;
 map <int, int> my_y;  // x, y
+map <int, int> my_y2;  // x, y
 
 // Main code
 int main()
@@ -39,26 +39,23 @@ int main()
     cin >> P >> x0 >> y0_;
     int x0_m = x0;
     int y0_m = y0_;
-    pesci.resize(P);
     pescati = 0;
+    max_x = -1;
+
 #ifdef DEBUG
     cout << "Header readed" << endl;
 #endif // DEBUG
+
     for (int i = 0; i < P; ++i)
     {
-        cin >> pesci[i].first >> pesci[i].second;
-        max_x = max(max_x, pesci[i].first);
-    }
-
-#ifdef DEBUG
-    cout << "Pesci first ok" << endl;
-    cout << "Max_x = " << max_x << endl;
-#endif // DEBUG
-
-    pesci2.resize(max_x + 1);
-    for (int i = 0; i < P; ++i)
-    {
-        pesci2[pesci[i].first].push_back(pesci[i].second);
+        cin >> temp >> temp2;
+        if(temp >= x0_m && temp2 >= y0_m)
+        {
+            if (temp >= pesci2.size())
+                pesci2.resize(temp * 2);
+            pesci2[temp].push_back(temp2);
+            max_x = max(max_x, temp);
+        }
     }
 
 #ifdef DEBUG
@@ -74,6 +71,7 @@ int main()
         if (change > 0)
         {
             y0_ += change;
+            my_y2[x0] = y0_;
         }
 
         if (change < 0)
@@ -81,6 +79,7 @@ int main()
             for (int i = x0 + 1; i < x0 - change + 1; i++)
             {
                 my_y[i] = y0_;
+                my_y2[i] = y0_;
             }
             x0 -= change;
         }
@@ -111,7 +110,7 @@ int main()
             {
                 for(int j = 0; j < pesci2[i].size(); ++j)
                 {
-                    if(pesci2[i][j] <= my_y[i] && pesci2[i][j] >= y0_)
+                    if((pesci2[i][j] <= my_y[i] && pesci2[i][j] >= y0_ && my_y[i] <= y0_) || (pesci2[i][j] >= my_y[i] && pesci2[i][j] <= y0_ && my_y[i] <= y0_) || (pesci2[i][j] <= my_y2[i] && pesci2[i][j] >= y0_ && my_y[i] >= y0_) || (pesci2[i][j] >= my_y2[i] && pesci2[i][j] <= y0_ && my_y[i] >= y0_))
                     {
 #ifdef DEBUG
                         cout << "Taked is : (" << i << ", " << pesci2[i][j] << ")" << endl;
@@ -135,7 +134,7 @@ int main()
     {
         for(int j = 0; j < pesci2[x0].size(); ++j)
         {
-            if(pesci2[x0][j] <= my_y[x0] && pesci2[x0][j] >= y0_)
+            if((pesci2[x0][j] <= my_y[x0] && pesci2[x0][j] >= y0_) || (pesci2[x0][j] >= my_y[x0] && pesci2[x0][j] <= y0_))
             {
 #ifdef DEBUG
                 cout << "Taked is : (" << x0 << ", " << pesci2[x0][j] << ")" << endl;
